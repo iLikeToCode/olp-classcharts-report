@@ -1,0 +1,65 @@
+{
+  "summary": {
+    "positive": 469,
+    "negative": 0
+  },
+  "timeline": {
+    "labels": [
+      "8/2025",
+      "9/2025",
+      "10/2025",
+      "11/2025",
+      "12/2025",
+      "1/2026",
+      "2/2026",
+      "3/2026",
+      "4/2026",
+      "5/2026",
+      "6/2026"
+    ],
+    "positive": [
+      0,
+      77,
+      74,
+      70,
+      43,
+      60,
+      41,
+      50,
+      26,
+      18,
+      10
+    ],
+    "negative": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "reasons": {
+    "positive": {
+      "Positive phone call home": 10,
+      "Helpful": 16,
+      "Problem solving": 16,
+      "Other positive": 19,
+      "Resilience": 20,
+      "Zero Hero Weekly Learning Manager Award": 20,
+      "Representing the UTC": 20,
+      "Teamwork": 21,
+      "Staying positive": 40,
+      "Attended Enrichment": 46,
+      "Completed homework": 55,
+      "Aiming High": 59,
+      "Work ethic": 127
+    },
+    "negative": []
+  }
+}

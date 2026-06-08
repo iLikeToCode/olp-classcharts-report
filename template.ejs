@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ClassCharts Report</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        @media print {
+            body {
+                margin: 0;
+            }
+
+            .page {
+                page-break-after: always;
+                break-after: page;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            canvas {
+                width: 100% !important;
+                height: 100vh !important;
+            }
+        }
+
+        .summary {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        #summary-text {
+            flex: 1;
+        }
+
+        .summary table {
+            flex-shrink: 0;
+        }
+
+        table {
+            background-color: #eee;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #000;
+            color: white;
+        }
+
+        td, th {
+            padding: 3px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="summary">
+        <div id="summary-text">
+            <h1>ClassCharts Report</h1>
+
+            <p>Total positive points: <%= report.summary.positive %></p>
+            <p>Total positive points from lessons: <%= report.summary.positive_lessons %></p>
+        </div>
+
+        <table border="1">
+            <tr>
+                <th>Teacher</th>
+                <th>Total Points</th>
+                <th>Total Points From Lessons</th>
+            </tr>
+            <% for (const [teacher, values] of Object.entries(report.teachers)) { %>
+                <tr>
+                    <td><%= teacher %></td>
+                    <td><%= values.points %></td>
+                    <td><%= values.points_lessons == 0 ? "" : values.points_lessons %></td>
+                </tr>
+            <% } %>
+        </table>
+    </div>
+
+    <canvas id="timeline"></canvas>
+    <canvas id="timeline-with-lessons"></canvas>
+
+    <script>
+        const labels = <%- JSON.stringify(report.timeline.labels) %>;
+        const positive = <%- JSON.stringify(report.timeline.positive) %>;
+        const positive_lessons = <%- JSON.stringify(report.timeline.positive_lessons) %>;
+
+        new Chart(document.getElementById("timeline"), {
+            type: "bar",
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: "Positive Points",
+                        data: positive
+                    }
+                ]
+            }
+        });
+
+        new Chart(document.getElementById("timeline-with-lessons"), {
+            type: "bar",
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: "Positive Points",
+                        data: positive
+                    },
+                    {
+                        label: "Positive Points From Lessons",
+                        data: positive_lessons
+                    }
+                ]
+            }
+        });
+    </script>
+</body>
+</html>

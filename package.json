@@ -1,0 +1,14 @@
+{
+  "name": "olp-classcharts-report",
+  "author": {
+    "name": "iLikeToCode",
+    "url": "https://github.com/iLikeToCode"
+  },
+  "homepage": "https://github.com/iLikeToCode/olp-classcharts-report",
+  "type": "module",
+  "dependencies": {
+    "classcharts-api": "^2.12.3",
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1"
+  }
+}
