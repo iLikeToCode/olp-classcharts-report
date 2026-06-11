@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>ClassCharts Report</title>
+    <title><%= report.info.name %> - ClassCharts Report</title>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -22,8 +22,8 @@
             }
 
             canvas {
-                width: 100% !important;
-                height: 100vh !important;
+                width: 100vw;
+                height: 100vh;
             }
         }
 
@@ -62,6 +62,7 @@
         <div id="summary-text">
             <h1>ClassCharts Report</h1>
 
+            <p>Name: <%= report.info.name %></p>
             <p>Total positive points: <%= report.summary.positive %></p>
             <p>Total positive points from lessons: <%= report.summary.positive_lessons %></p>
         </div>
@@ -83,30 +84,20 @@
     </div>
 
     <canvas id="timeline"></canvas>
-    <canvas id="timeline-with-lessons"></canvas>
+    <canvas id="teachers"></canvas>
 
     <script>
-        const labels = <%- JSON.stringify(report.timeline.labels) %>;
+        const labels_timeline = <%- JSON.stringify(report.timeline.labels) %>;
         const positive = <%- JSON.stringify(report.timeline.positive) %>;
         const positive_lessons = <%- JSON.stringify(report.timeline.positive_lessons) %>;
+        const total_positive = <%- JSON.stringify(report.summary.positive) %>;
+        const total_positive_lessons = <%- JSON.stringify(report.summary.positive_lessons) %>;
+        const total_positive_not_lessons = total_positive - total_positive_lessons;
 
         new Chart(document.getElementById("timeline"), {
             type: "bar",
             data: {
-                labels,
-                datasets: [
-                    {
-                        label: "Positive Points",
-                        data: positive
-                    }
-                ]
-            }
-        });
-
-        new Chart(document.getElementById("timeline-with-lessons"), {
-            type: "bar",
-            data: {
-                labels,
+                labels: labels_timeline,
                 datasets: [
                     {
                         label: "Positive Points",
@@ -115,6 +106,30 @@
                     {
                         label: "Positive Points From Lessons",
                         data: positive_lessons
+                    }
+                ]
+            }
+        });
+
+        const teachers = <%- JSON.stringify(report.teachers) %>
+
+        const teachers_vals = Object.values(teachers)
+
+        const teachers_no_lessons = teachers_vals.map(teacher => teacher.points)
+        const teachers_lessons = teachers_vals.map(teacher => teacher.points_lessons)
+
+        new Chart(document.getElementById("teachers"), {
+            type: "bar",
+            data: {
+                labels: Object.keys(teachers),
+                datasets: [
+                    {
+                        label: "Positive Points",
+                        data: teachers_no_lessons
+                    },
+                    {
+                        label: "Positive Points From Lessons",
+                        data: teachers_lessons
                     }
                 ]
             }

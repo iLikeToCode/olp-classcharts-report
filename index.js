@@ -47,8 +47,6 @@ let monthly_timeline_lessons = {};
 
 let teachers = {};
 
-let teachers_test = [];
-
 while (true) {
   const response = await client.getActivity({
     from: "2025-09-01",
@@ -119,7 +117,6 @@ while (true) {
 }
 
 console.log(`Fetched ${activity.length} activity points`);
-console.log(positive_types_lessons)
 
 weekly_timeline = Object.entries(weekly_timeline)
   .sort(([a], [b]) => a.localeCompare(b));
@@ -133,8 +130,11 @@ weekly_timeline_lessons = Object.entries(weekly_timeline_lessons)
 
 const positive_lessons = weekly_timeline_lessons.map(([, score]) => score);
 
+const info = await client.getStudentInfo();
+
 const report = {
   generated: new Date().toISOString(),
+  info: info.data.user,
   summary: {
     positive: total_positive,
     positive_lessons: total_positive_lessons
@@ -144,14 +144,14 @@ const report = {
 };
 //console.log(report)
 
-await fs.mkdir("report", { recursive: true });
-await fs.writeFile("report/report.json", JSON.stringify(report, null, 2));
+await fs.mkdir(`report-${info.data.user.name.replaceAll(" ", "-")}`, { recursive: true });
+await fs.writeFile(`report-${info.data.user.name.replaceAll(" ", "-")}/report.json`, JSON.stringify(report, null, 2));
 
 const html = await ejs.renderFile("template.ejs", {
     report,
     positive_types
 });
 
-await fs.writeFile("report/report.html", html);
+await fs.writeFile(`report-${info.data.user.name.replaceAll(" ", "-")}/index.html`, html);
 
-console.log("Generated report/report.html");
+console.log(`Generated report-${info.data.user.name.replaceAll(" ", "-")}`);
